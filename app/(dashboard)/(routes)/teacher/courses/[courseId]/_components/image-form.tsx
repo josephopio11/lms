@@ -103,7 +103,7 @@ const ImageForm = ({
               }
             }}
           />
-          <div className="text-sx text-muted-foreground mt-4">
+          <div className="text-sx text-muted-foreground mt-4 italic">
             <small>
               16:9 aspect ratio recommended
             </small>
