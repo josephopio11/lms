@@ -46,7 +46,7 @@ const CourseIdPage = async ({
     }
   });
 
-  console.log(categories)
+  // console.log(categories)
 
   if (!course) {
     return redirect('/teacher/courses');
@@ -70,7 +70,7 @@ const CourseIdPage = async ({
     if (completedFields === totalFields) {
       return 'text-sm text-green-400'
     } else {
-      return 'text-sm text-red-400 font-thin'
+      return 'text-sm text-red-400'
     }
   }
 
