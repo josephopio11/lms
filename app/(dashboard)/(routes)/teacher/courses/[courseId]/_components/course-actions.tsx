@@ -8,19 +8,17 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-interface ChapterActionsProps {
+interface CourseActionsProps {
   disabled: boolean;
   courseId: string;
-  chapterId: string;
   isPublished: boolean;
 }
 
-const ChapterActions = ({
+const CourseActions = ({
   disabled,
   courseId,
-  chapterId,
   isPublished
-}: ChapterActionsProps) => {
+}: CourseActionsProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,17 +27,17 @@ const ChapterActions = ({
       setIsLoading(true);
 
       if (isPublished) {
-        await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/unpublish`);
+        await axios.patch(`/api/courses/${courseId}/unpublish`);
 
-        toast.success("Chapter unpublished");
+        toast.success("Course unpublished");
       } else {
-        await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/publish`);
-        toast.success("Chapter published. It will not be visible in the course.");
+        await axios.patch(`/api/courses/${courseId}/publish`);
+        toast.success("Course published.");
       }
       router.refresh();
 
     } catch (error) {
-      toast.error("Chapter not publushed. Something went wrong");
+      toast.error("Course not publushed. Something went wrong");
     } finally {
       setIsLoading(false);
     }
@@ -48,16 +46,15 @@ const ChapterActions = ({
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`/api/courses/${courseId}/chapters/${chapterId}`);
-
-      toast.success("Chapter deleted");
-      router.refresh();
-      router.push(`/teacher/courses/${courseId}`);
+      await axios.delete(`/api/courses/${courseId}`);
+      toast.success("Course deleted");
+      router.push(`/teacher/courses/`);
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }
+    router.refresh();
   }
 
   return (
@@ -79,4 +76,4 @@ const ChapterActions = ({
   )
 }
 
-export default ChapterActions
+export default CourseActions

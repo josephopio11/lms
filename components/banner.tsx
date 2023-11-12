@@ -39,7 +39,7 @@ const Banner = ({
   const Icon = iconMap[variant || "warning"];
 
   return (
-    <div className={cn(bannerVariants({ variant }))}>
+    <div className={cn(` italic ${bannerVariants({ variant })}`)}>
       <Icon className='h-4 w-4 mr-2' />
       {label}
     </div>
