@@ -16,6 +16,7 @@ import {
   FcSynchronize,
 } from "react-icons/fc";
 import { IconType } from "react-icons";
+import SearchCategoryItem from "./search-category-item";
 
 interface CategoriesProps {
   items: Category[],
@@ -38,8 +39,15 @@ const iconMap: Record<Category["name"], IconType> = {
 
 export const Categories = ({ items }: CategoriesProps) => {
   return (
-    <div>
-      Categories
+    <div className="flex items-center gap-x-2 overflow-x-auto pb-2">
+      {items.map((item) => (
+        <SearchCategoryItem
+          key={item.id}
+          label={item.name}
+          icon={iconMap[item.name]}
+          value={item.id}
+        />
+      ))}
     </div>
   )
 }
