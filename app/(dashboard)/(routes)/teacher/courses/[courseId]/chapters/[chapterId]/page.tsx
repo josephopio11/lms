@@ -4,8 +4,6 @@ import { auth } from '@clerk/nextjs';
 import { ArrowLeft, Eye, LayoutDashboard, Video } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import React from 'react'
-import TitleForm from './_components/chapter-title-form';
 import ChapterTitleForm from './_components/chapter-title-form';
 import ChapterDescriptionForm from './_components/chapter-description-form';
 import ChapterAccessForm from './_components/chapter-access-form';

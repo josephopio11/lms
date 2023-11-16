@@ -2,8 +2,6 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { File, Loader2, PlusCircle, X } from "lucide-react";
@@ -115,9 +113,7 @@ const AttachmentForm = ({
           <FileUpload
             endpoint="courseAttachment"
             onChange={(url) => {
-              if (url) {
-                onSubmit({ url: url });
-              }
+              if (url) onSubmit({ url: url });
             }}
           />
           <div className="text-sx text-muted-foreground mt-4 italic">

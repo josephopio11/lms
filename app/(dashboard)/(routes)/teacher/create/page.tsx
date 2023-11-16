@@ -3,7 +3,7 @@
 import * as z from 'zod';
 import axios from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 import { useRouter } from 'next/navigation';
 
 import {
@@ -14,10 +14,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import Link from 'next/link';
 import toast from 'react-hot-toast';
 
 const formSchema = z.object({

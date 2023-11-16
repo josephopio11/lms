@@ -1,7 +1,5 @@
-import { UserButton } from '@clerk/nextjs'
-import Image from 'next/image'
 
-export default function Home() {
+const Home = () => {
   return (
     <div>
       <h2>This is the dashboard page</h2>
@@ -9,3 +7,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default Home;

@@ -1,4 +1,3 @@
-import React from 'react'
 import Logo from './logo'
 import SidebarRoutes from './sidebar-routes'
 
