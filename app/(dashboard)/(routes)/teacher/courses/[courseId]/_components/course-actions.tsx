@@ -40,7 +40,7 @@ const CourseActions = ({
       router.refresh();
 
     } catch (error) {
-      toast.error("Course not publushed. Something went wrong");
+      toast.error("Course not published. Something went wrong");
     } finally {
       setIsLoading(false);
     }

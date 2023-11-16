@@ -34,12 +34,12 @@ const ChapterActions = ({
         toast.success("Chapter unpublished");
       } else {
         await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/publish`);
-        toast.success("Chapter published. It will not be visible in the course.");
+        toast.success("Chapter published.");
       }
       router.refresh();
 
     } catch (error) {
-      toast.error("Chapter not publushed. Something went wrong");
+      toast.error("Chapter not published. Something went wrong");
     } finally {
       setIsLoading(false);
     }

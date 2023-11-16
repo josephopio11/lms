@@ -47,6 +47,14 @@ const ChapterIdPage = async ({
 
   const isComplete = requiredFields.every(Boolean);
 
+  const conditionalFormat = () => {
+    if (completedFields === totalFields) {
+      return 'text-sm text-green-400'
+    } else {
+      return 'text-sm text-red-400'
+    }
+  }
+
   return (
     <>
       {!chapter.isPublished && (
@@ -68,7 +76,7 @@ const ChapterIdPage = async ({
             <div className='flex items-center justify-between w-full'>
               <div className="flex flex-col gap-y-2">
                 <h1 className='text-2xl font-medium'>Chapter Creation</h1>
-                <span className="text-sm text-gray-400"> Complete all fields {completionText}</span>
+                <span className={conditionalFormat()}> Complete all fields {completionText}</span>
               </div>
               <ChapterActions
                 disabled={!isComplete}
