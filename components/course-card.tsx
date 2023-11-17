@@ -5,6 +5,7 @@ import Link from "next/link";
 import { IconBadge } from "@/components/icon-badge";
 import { BookOpen } from "lucide-react";
 import { formatPrice } from "@/lib/format";
+import { CourseProgress } from "@/components/course-progress";
 
 interface CourseCardProps {
   id: string;
@@ -54,14 +55,11 @@ const CourseCard = ({
           {progress !== null ? (
             // I just added theis for fun
             // TODO: add a progress component
-            <div className="flex items-center gap-x-2 text-sm md:text-xs">
-              <div className="flex items-center gap-x-1 text-slate-500">
-                <IconBadge size={'sm'} icon={BookOpen} />
-                <span>
-                  {progress}%
-                </span>
-              </div>
-            </div>
+            <CourseProgress
+              variant={progress === 100 ? "success" : "default"}
+              size="sm"
+              value={progress}
+            />
           ) : (
             <p className="text-md md:text-sm font-medium text-slate-700">
               {formatPrice(price)}

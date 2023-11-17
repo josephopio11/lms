@@ -45,7 +45,7 @@ export const CourseProgressButton = ({
             toast.success("Progress updated");
             router.refresh();
         } catch {
-            toast.error("Something went wrong");
+            toast.error("Can't mark as complete. Something went wrong");
         } finally {
             setIsLoading(false);
         }
@@ -58,7 +58,7 @@ export const CourseProgressButton = ({
             onClick={onClick}
             disabled={isLoading}
             type="button"
-            // variant={isCompleted ? "outline" : "null"}
+            variant={isCompleted ? "outline" : "success"}
             className="w-full md:w-auto"
         >
             {isCompleted ? "Not completed" : "Mark as complete"}
