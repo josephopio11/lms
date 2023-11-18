@@ -10,6 +10,11 @@ const Sidebar = () => {
       <div className="flex flex-col w-full">
         <SidebarRoutes />
       </div>
+      <div className='p-6 mt-auto'>
+        <p className="text-xs font-bold">
+          Focused Learning Experience
+        </p>
+      </div>
     </div>
   )
 }

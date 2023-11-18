@@ -8,8 +8,8 @@ import { ConfettiProvider } from '@/components/providers/confetti-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Computia - LMS',
-  description: 'Created by Joseph Opio',
+  title: 'fLEx - Focused Learning Experience',
+  description: 'Created by Joseph Opio ',
 }
 
 export default function RootLayout({
