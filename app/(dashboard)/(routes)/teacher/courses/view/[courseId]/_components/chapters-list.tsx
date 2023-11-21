@@ -31,7 +31,7 @@ const ChaptersList = ({
   return (
     <>
       {chapters.map((chapter, index) => (
-        <div className={cn("flex flex-row items-center justify-between py-2", !chapter.isPublished && "bg-pink-500/10", chapter.isFree && "bg-purple-500/10")}>
+        <div className={cn("flex flex-row items-center justify-between py-2", !chapter.isPublished && "bg-pink-500/10", chapter.isFree && "bg-purple-500/10")} key={chapter.id}>
           <p className="font-bold text-xl">
             {chapter.title}
           </p>
