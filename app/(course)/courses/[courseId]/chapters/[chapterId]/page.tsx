@@ -6,7 +6,6 @@ import { getChapter } from "@/actions/get-chapter";
 import { Separator } from "@/components/ui/separator";
 import { Preview } from "@/components/preview";
 
-
 import { CourseEnrollButton } from "./_components/course-enroll-button";
 import { CourseProgressButton } from "./_components/course-progress-button";
 import Banner from "@/components/banner";

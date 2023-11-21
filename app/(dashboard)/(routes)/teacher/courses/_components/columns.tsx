@@ -31,6 +31,15 @@ export const columns: ColumnDef<Course>[] = [
         </Button>
       )
     },
+    cell: ({ row }) => {
+      const { id } = row.original;
+      const le_title = row.original.title;
+      return (
+        <Link
+          href={`/teacher/courses/view/${id}`}
+        >{le_title}</Link>
+      )
+    }
   },
   {
     accessorKey: "price",
@@ -97,7 +106,7 @@ export const columns: ColumnDef<Course>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/teacher/courses/${id}`} className="flex flex-row">
+              <Link href={`/teacher/courses/view/${id}`} className="flex flex-row">
                 <Eye className="mr-2 h-4 w-4" />
                 View
               </Link>

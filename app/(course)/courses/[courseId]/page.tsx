@@ -1,7 +1,6 @@
-import { db } from '@/lib/db'
+import { db } from '@/lib/db';
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
-import React from 'react'
 
 const CourseIdPage = async ({
   params

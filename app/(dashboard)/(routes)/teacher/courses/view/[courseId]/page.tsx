@@ -1,18 +1,19 @@
 import { IconBadge } from '@/components/icon-badge';
-import { db } from '@/lib/db'
+import { db } from '@/lib/db';
 import { auth } from '@clerk/nextjs';
 import { CircleDollarSign, File, LayoutDashboard, ListChecks } from 'lucide-react';
 import { redirect } from 'next/navigation';
-import React from 'react'
-import TitleForm from './_components/title-form';
-import DescriptionForm from './_components/description-form';
-import ImageForm from './_components/image-form';
 import CategoryForm from './_components/category-form';
-import PriceForm from './_components/price-form';
 import AttachmentForm from './_components/attachment-form';
 import ChaptersForm from './_components/chapters-form';
 import Banner from '@/components/banner';
 import CourseActions from './_components/course-actions';
+import GoBack from './_components/goback';
+import MyInfoCard from './_components/infocard';
+import { formatPrice } from '@/lib/format';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+
 
 const CourseIdPage = async ({
   params
@@ -48,7 +49,6 @@ const CourseIdPage = async ({
     }
   });
 
-
   if (!course) {
     return redirect('/teacher/courses');
   }
@@ -62,20 +62,7 @@ const CourseIdPage = async ({
     course.chapters.some(chapter => chapter.isPublished),
   ];
 
-  const totalFields = requiredFields.length;
-  const completedFields = requiredFields.filter(Boolean).length;
-
-  const completionText = `(${completedFields}/${totalFields})`;
-
   const isComplete = requiredFields.every(Boolean);
-
-  const conditionalFormat = () => {
-    if (completedFields === totalFields) {
-      return 'text-sm text-green-400'
-    } else {
-      return 'text-sm text-red-400'
-    }
-  }
 
   return (
     <>
@@ -88,14 +75,21 @@ const CourseIdPage = async ({
       <div className='p-6'>
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-y-2">
+            <div className="flex items-center gap-x-2">
+              <GoBack />
+            </div>
             <h2 className='text-2xl font-medium'>
-              Set up: {course?.title}
+              {course?.title}
             </h2>
-            <span className={conditionalFormat()}>
-              Complete all fields {completionText}
-            </span>
           </div>
-          <div>
+          <div className='flex items-center gap-x-4'>
+            <Link
+              href={`/teacher/courses/${course.id}/`}
+            >
+              <Button className='bg-emerald-600 text-white hover:bg-emerald-600/80'>
+                Edit
+              </Button>
+            </Link>
             <CourseActions
               disabled={!isComplete}
               courseId={course.id}
@@ -104,33 +98,37 @@ const CourseIdPage = async ({
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-          <div>
+          <div className='space-y-6 bg-emerald-50 p-6 rounded-lg'>
             <div className='flex items-center gap-x-2'>
               <IconBadge size={'md'} variant={'success'} icon={LayoutDashboard} />
-              <h2 className='text-xl'>Customise your course</h2>
+              <h2 className='text-xl'>Course Information</h2>
             </div>
-            <TitleForm
-              initialData={course}
-              courseId={course.id}
+            <MyInfoCard
+              cardName="Course Title"
+              title={course.title}
+              format
             />
-            <DescriptionForm
-              initialData={course}
-              courseId={course.id}
+            <MyInfoCard
+              cardName='Course Description'
+              title={course.description!}
+              format={false}
             />
-            <ImageForm
-              initialData={course}
-              courseId={course.id}
+            <MyInfoCard
+              cardName='Course Image'
+              format
+              image={course.imageUrl!}
             />
+
             <CategoryForm
               initialData={course}
-              courseId={course.id}
               options={categories.map((category) => ({
                 label: category.name,
                 value: category.id
               }))}
             />
+
           </div>
-          <div className="space-y-6">
+          <div className="space-y-6 bg-rose-50 p-6 rounded-lg">
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge size={'md'} variant={'success'} icon={ListChecks} />
@@ -138,17 +136,17 @@ const CourseIdPage = async ({
               </div>
               <ChaptersForm
                 initialData={course}
-                courseId={course.id}
               />
             </div>
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge size={'md'} icon={CircleDollarSign} />
-                <h2 className='text-xl'>Sell your course.</h2>
+                <h2 className='text-xl'>Course Price.</h2>
               </div>
-              <PriceForm
-                initialData={course}
-                courseId={course.id}
+              <MyInfoCard
+                cardName={'Set price'}
+                title={formatPrice(course.price!)}
+                format
               />
             </div>
             <div>
@@ -158,7 +156,6 @@ const CourseIdPage = async ({
               </div>
               <AttachmentForm
                 initialData={course}
-                courseId={course.id}
               />
             </div>
           </div>
