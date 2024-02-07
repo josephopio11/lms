@@ -3,7 +3,7 @@ import { Course, Purchase } from "@prisma/client";
 
 type PurchaseWithCourse = Purchase & {
   course: Course;
-}
+};
 
 const groupByCourse = (purchases: PurchaseWithCourse[]) => {
   const grouped: { [courseTitle: string]: number } = {};
@@ -20,24 +20,25 @@ const groupByCourse = (purchases: PurchaseWithCourse[]) => {
 };
 
 export const getAnalytics = async (userId: string) => {
-
   try {
     const purchases = await db.purchase.findMany({
       where: {
         course: {
           userId,
-        }
+        },
       },
       include: {
-        course: true
-      }
+        course: true,
+      },
     });
 
     const groupedEarnings = groupByCourse(purchases);
-    const data = Object.entries(groupedEarnings).map(([courseTitle, total]) => ({
-      name: courseTitle,
-      total: total,
-    }));
+    const data = Object.entries(groupedEarnings).map(
+      ([courseTitle, total]) => ({
+        name: courseTitle,
+        total: total,
+      })
+    );
 
     const totalRevenue = data.reduce((acc, curr) => acc + curr.total, 0);
     const totalSales = purchases.length;
@@ -46,17 +47,14 @@ export const getAnalytics = async (userId: string) => {
       data,
       totalRevenue,
       totalSales,
-    }
-
+    };
   } catch (error) {
-
-    console.log("GET_ANALYTICS", error);
+    // console.log("GET_ANALYTICS", error);
 
     return {
       data: [],
       totalRevenue: 0,
       totalSales: 0,
-    }
-
+    };
   }
-}
+};

@@ -10,27 +10,26 @@ interface GetChapterProps {
 export const getChapter = async ({
   userId,
   courseId,
-  chapterId
+  chapterId,
 }: GetChapterProps) => {
-
   try {
     const purchase = await db.purchase.findUnique({
       where: {
         userId_courseId: {
           userId,
-          courseId
-        }
-      }
+          courseId,
+        },
+      },
     });
 
     const course = await db.course.findUnique({
       where: {
         isPublished: true,
-        id: courseId
+        id: courseId,
       },
       select: {
-        price: true
-      }
+        price: true,
+      },
     });
 
     const chapter = await db.chapter.findUnique({
@@ -52,37 +51,37 @@ export const getChapter = async ({
       attachments = await db.attachment.findMany({
         where: {
           courseId,
-        }
+        },
       });
     }
 
     if (chapter.isFree || purchase) {
       muxData = await db.muxData.findFirst({
         where: {
-          chapterId
-        }
+          chapterId,
+        },
       });
       nextChapter = await db.chapter.findFirst({
         where: {
           courseId,
           isPublished: true,
           position: {
-            gt: chapter.position
-          }
+            gt: chapter.position,
+          },
         },
         orderBy: {
-          position: "asc"
-        }
-      })
+          position: "asc",
+        },
+      });
     }
 
     const userProgress = await db.userProgress.findUnique({
       where: {
         userId_chapterId: {
           userId,
-          chapterId
-        }
-      }
+          chapterId,
+        },
+      },
     });
 
     return {
@@ -93,10 +92,9 @@ export const getChapter = async ({
       nextChapter,
       userProgress,
       purchase,
-    }
-
+    };
   } catch (error) {
-    console.log("GET_CHAPTER", error);
+    // console.log("GET_CHAPTER", error);
     return {
       chapter: null,
       course: null,
@@ -105,6 +103,6 @@ export const getChapter = async ({
       nextChapter: null,
       userProgress: null,
       purchase: null,
-    }
+    };
   }
-}
+};

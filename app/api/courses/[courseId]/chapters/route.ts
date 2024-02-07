@@ -27,11 +27,11 @@ export async function POST(
 
     const lastChapter = await db.chapter.findFirst({
       where: {
-        courseId: params.courseId
+        courseId: params.courseId,
       },
       orderBy: {
-        position: 'desc'
-      }
+        position: "desc",
+      },
     });
 
     const newPosition = lastChapter ? lastChapter.position + 1 : 1;
@@ -40,14 +40,13 @@ export async function POST(
       data: {
         title,
         position: newPosition,
-        courseId: params.courseId
-      }
+        courseId: params.courseId,
+      },
     });
 
     return NextResponse.json({ chapter });
-
   } catch (error) {
-    console.log("[CHAPTERS]", error);
+    // console.log("[CHAPTERS]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

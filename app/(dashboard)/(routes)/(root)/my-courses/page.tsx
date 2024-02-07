@@ -7,7 +7,7 @@ import InfoCard from "../_components/info-card";
 
 const Dashboard = async () => {
   const { userId } = auth();
-  console.log(userId);
+  // console.log(userId);
 
   if (!userId) return redirect("/sign-in");
 

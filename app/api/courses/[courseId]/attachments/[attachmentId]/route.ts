@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { courseId: string, attachmentId: string } }
+  { params }: { params: { courseId: string; attachmentId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -18,7 +18,7 @@ export async function DELETE(
         id: params.courseId,
         userId: userId,
       },
-    })
+    });
 
     if (!courseOwner) {
       return new NextResponse("Unauthorised", { status: 401 });
@@ -27,14 +27,13 @@ export async function DELETE(
     const attachment = await db.attachment.delete({
       where: {
         courseId: params.courseId,
-        id: params.attachmentId
-      }
+        id: params.attachmentId,
+      },
     });
 
     return NextResponse.json(attachment);
-
   } catch (error) {
-    console.log("[ATTACHMENT_ID]", error);
+    // console.log("[ATTACHMENT_ID]", error);
     return new NextResponse("Internal server error", { status: 500 });
   }
 }

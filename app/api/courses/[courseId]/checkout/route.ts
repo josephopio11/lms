@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 import { currentUser } from "@clerk/nextjs";
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 export async function POST(
@@ -18,17 +18,17 @@ export async function POST(
     const course = await db.course.findUnique({
       where: {
         id: params.courseId,
-        isPublished: true
-      }
+        isPublished: true,
+      },
     });
 
     const purchase = await db.purchase.findUnique({
       where: {
         userId_courseId: {
           userId: user.id,
-          courseId: params.courseId
-        }
-      }
+          courseId: params.courseId,
+        },
+      },
     });
 
     if (purchase) {
@@ -49,8 +49,8 @@ export async function POST(
             description: course.description!,
           },
           unit_amount: Math.round(course.price! * 100),
-        }
-      }
+        },
+      },
     ];
 
     let stripeCustomer = await db.stripeCustomer.findUnique({
@@ -58,8 +58,8 @@ export async function POST(
         userId: user.id,
       },
       select: {
-        stripeCustomerId: true
-      }
+        stripeCustomerId: true,
+      },
     });
 
     if (!stripeCustomer) {
@@ -70,8 +70,8 @@ export async function POST(
       stripeCustomer = await db.stripeCustomer.create({
         data: {
           userId: user.id,
-          stripeCustomerId: newStripeCustomer.id
-        }
+          stripeCustomerId: newStripeCustomer.id,
+        },
       });
     }
 
@@ -83,14 +83,13 @@ export async function POST(
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/courses/${course.id}?cancel=1`,
       metadata: {
         courseId: course.id,
-        userId: user.id
-      }
+        userId: user.id,
+      },
     });
 
     return NextResponse.json({ url: session.url });
-
   } catch (error) {
-    console.log("COURSE_ID_CHECKOUT", error)
+    // console.log("COURSE_ID_CHECKOUT", error)
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

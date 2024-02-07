@@ -6,18 +6,18 @@ type CourseWithProgressWithCategory = Course & {
   category: Category | null;
   chapters: { id: string }[];
   progress: number | null;
-}
+};
 
 type GetCourses = {
   userId: string;
   title?: string;
   categoryId?: string;
-}
+};
 
 export const getCourses = async ({
   userId,
   title,
-  categoryId
+  categoryId,
 }: GetCourses): Promise<CourseWithProgressWithCategory[]> => {
   try {
     const courses = await db.course.findMany({
@@ -35,43 +35,42 @@ export const getCourses = async ({
             isPublished: true,
           },
           select: {
-            id: true
-          }
+            id: true,
+          },
         },
         purchases: {
           where: {
             userId,
-          }
-        }
+          },
+        },
       },
       orderBy: {
-        createdAt: 'desc'
-      }
+        createdAt: "desc",
+      },
     });
 
-    const coursesWithProgress: CourseWithProgressWithCategory[] = await Promise.all(
-      courses.map(async (course) => {
-        if (course.purchases.length === 0) {
+    const coursesWithProgress: CourseWithProgressWithCategory[] =
+      await Promise.all(
+        courses.map(async (course) => {
+          if (course.purchases.length === 0) {
+            return {
+              ...course,
+              progress: null,
+            };
+          }
+
+          const progressPercentage = await getProgress(userId, course.id);
+
           return {
             ...course,
-            progress: null
-          }
-        }
-
-        const progressPercentage = await getProgress(userId, course.id);
-
-        return {
-          ...course,
-          progress: progressPercentage,
-        }
-      })
-    );
-
+            progress: progressPercentage,
+          };
+        })
+      );
 
     return coursesWithProgress;
-
   } catch (error) {
-    console.log("[GET_COURSES]", error);
+    // console.log("[GET_COURSES]", error);
     return [];
   }
-}
+};

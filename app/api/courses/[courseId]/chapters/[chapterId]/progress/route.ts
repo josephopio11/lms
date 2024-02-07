@@ -18,8 +18,8 @@ export async function PUT(
       where: {
         userId_chapterId: {
           userId: userId,
-          chapterId: params.chapterId
-        }
+          chapterId: params.chapterId,
+        },
       },
       update: {
         isCompleted,
@@ -27,14 +27,13 @@ export async function PUT(
       create: {
         userId,
         chapterId: params.chapterId,
-        isCompleted
-      }
+        isCompleted,
+      },
     });
 
     return NextResponse.json(userProgress);
-
   } catch (error) {
-    console.log("[CHAPTER_ID_PROGRESS", error)
+    // console.log("[CHAPTER_ID_PROGRESS", error)
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

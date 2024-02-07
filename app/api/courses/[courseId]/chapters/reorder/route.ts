@@ -20,7 +20,7 @@ export async function PUT(
         id: params.courseId,
         userId: userId,
       },
-    })
+    });
 
     if (!ownCourse) {
       return new NextResponse("Unauthorised", { status: 401 });
@@ -29,14 +29,13 @@ export async function PUT(
     for (let item of list) {
       await db.chapter.update({
         where: { id: item.id },
-        data: { position: item.position }
+        data: { position: item.position },
       });
     }
 
     return new NextResponse("Reordered", { status: 200 });
-
   } catch (error) {
-    console.log("[REORDER_CHAPTERS]", error);
+    // console.log("[REORDER_CHAPTERS]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }

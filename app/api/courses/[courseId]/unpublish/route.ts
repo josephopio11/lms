@@ -17,8 +17,8 @@ export async function PATCH(
     const course = await db.course.findUnique({
       where: {
         id: params.courseId,
-        userId
-      }
+        userId,
+      },
     });
 
     if (!course) {
@@ -28,16 +28,15 @@ export async function PATCH(
     const unpublishedCourse = await db.course.update({
       where: {
         id: params.courseId,
-        userId
+        userId,
       },
       data: {
-        isPublished: false
-      }
+        isPublished: false,
+      },
     });
 
     return NextResponse.json(unpublishedCourse);
-
   } catch (error) {
-    console.log("COURSE_ID_PUBLISH", error)
+    // console.log("COURSE_ID_PUBLISH", error)
   }
 }

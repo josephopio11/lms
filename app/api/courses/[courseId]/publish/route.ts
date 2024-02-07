@@ -17,40 +17,47 @@ export async function PATCH(
     const course = await db.course.findUnique({
       where: {
         id: params.courseId,
-        userId
+        userId,
       },
       include: {
         chapters: {
           include: {
-            muxData: true
-          }
-        }
-      }
+            muxData: true,
+          },
+        },
+      },
     });
 
     if (!course) {
       return new NextResponse("Not found", { status: 404 });
     }
 
-    const hasPUblishedChapter = course?.chapters.some((chapter) => chapter.isPublished)
+    const hasPUblishedChapter = course?.chapters.some(
+      (chapter) => chapter.isPublished
+    );
 
-    if (!course.title || !course.description || !course.imageUrl || !course.categoryId || !hasPUblishedChapter) {
+    if (
+      !course.title ||
+      !course.description ||
+      !course.imageUrl ||
+      !course.categoryId ||
+      !hasPUblishedChapter
+    ) {
       return new NextResponse("Missing required fields", { status: 401 });
     }
 
     const publishedCourse = await db.course.update({
       where: {
         id: params.courseId,
-        userId
+        userId,
       },
       data: {
-        isPublished: true
-      }
+        isPublished: true,
+      },
     });
 
     return NextResponse.json(publishedCourse);
-
   } catch (error) {
-    console.log("COURSE_ID_PUBLISH", error)
+    // console.log("COURSE_ID_PUBLISH", error)
   }
 }

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import * as z from "zod";
 import axios from "axios";
@@ -10,7 +10,7 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Loader2, PlusCircle } from "lucide-react";
@@ -33,10 +33,7 @@ const formSchema = z.object({
   }),
 });
 
-const ChaptersForm = ({
-  initialData,
-  courseId
-}: ChaptersFormProps) => {
+const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -44,13 +41,13 @@ const ChaptersForm = ({
 
   const toggleCreating = () => {
     setIsCreating((current) => !current);
-  }
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: ""
-    }
+      title: "",
+    },
   });
 
   const { isSubmitting, isValid } = form.formState;
@@ -64,27 +61,27 @@ const ChaptersForm = ({
     } catch (error) {
       toast.error("Failed to create chapter. Something went wrong");
     }
-  }
+  };
 
   const onReorder = async (updateData: { id: string; position: number }[]) => {
     try {
-      setIsUpdating(true)
+      setIsUpdating(true);
       await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
-        list: updateData
+        list: updateData,
       });
       toast.success("Chapters reordered");
       router.refresh();
     } catch (error) {
       toast.error("Failed to reorder. Something went wrong");
-      console.log(error)
+      // console.log(error)
     } finally {
-      setIsUpdating(false)
+      setIsUpdating(false);
     }
-  }
+  };
 
   const onEdit = (id: string) => {
-    router.push(`/teacher/courses/${courseId}/chapters/${id}`)
-  }
+    router.push(`/teacher/courses/${courseId}/chapters/${id}`);
+  };
 
   return (
     <div className="relative mt-6 border bg-slate-100 rounded-md p-4">
@@ -95,7 +92,7 @@ const ChaptersForm = ({
       )}
       <div className="font-medium flex items-center justify-between">
         Course chapters
-        <Button onClick={toggleCreating} variant={'ghost'}>
+        <Button onClick={toggleCreating} variant={"ghost"}>
           {isCreating ? (
             <>Cancel</>
           ) : (
@@ -129,18 +126,19 @@ const ChaptersForm = ({
                 </FormItem>
               )}
             />
-            <Button
-              disabled={isSubmitting || !isValid}
-              type="submit"
-            >Create</Button>
+            <Button disabled={isSubmitting || !isValid} type="submit">
+              Create
+            </Button>
           </form>
         </Form>
       )}
       {!isCreating && (
-        <div className={cn(
-          "text-sm mt-2",
-          !initialData.chapters.length && "text-slate-500 italic"
-        )}>
+        <div
+          className={cn(
+            "text-sm mt-2",
+            !initialData.chapters.length && "text-slate-500 italic"
+          )}
+        >
           {!initialData.chapters.length && "No chapters yet."}
           <ChaptersList
             onEdit={onEdit}
@@ -155,9 +153,8 @@ const ChaptersForm = ({
           Drag and drop to reorder the chapters
         </p>
       )}
-
     </div>
-  )
-}
+  );
+};
 
-export default ChaptersForm
+export default ChaptersForm;
