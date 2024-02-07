@@ -3,17 +3,17 @@ import CoursesList from "@/components/courses-list";
 import { auth } from "@clerk/nextjs";
 import { CheckCircle, Clock } from "lucide-react";
 import { redirect } from "next/navigation";
-import InfoCard from "./_components/info-card";
+import InfoCard from "../_components/info-card";
 
 const Dashboard = async () => {
   const { userId } = auth();
+  console.log(userId);
 
-  if (!userId) return redirect('/sign-in');
+  if (!userId) return redirect("/sign-in");
 
-  const {
-    completedCourses,
-    coursesInProgress
-  } = await getDashboardCourses(userId);
+  const { completedCourses, coursesInProgress } = await getDashboardCourses(
+    userId
+  );
 
   return (
     <div className="p-6 space-y-4">
@@ -32,11 +32,9 @@ const Dashboard = async () => {
           />
         </div>
       </div>
-      <CoursesList
-        items={[...coursesInProgress, ...completedCourses]}
-      />
+      <CoursesList items={[...coursesInProgress, ...completedCourses]} />
     </div>
-  )
-}
+  );
+};
 
 export default Dashboard;
